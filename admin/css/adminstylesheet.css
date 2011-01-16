@@ -1,0 +1,271 @@
+
+/*get the reset styles and that from the boilerplate css*/
+@import 'boilerplate.css';
+
+/* get nathan smith's excellent form library - thankyou nathan */
+@import 'forms.css';
+
+/* --- generic --- */
+
+html { overflow-x: hidden;} /*this is so the main bit can't go under the sitebar...*/
+
+body {
+	color: #222;
+	font-family: "Courier New", Courier, monospace;
+	background-color: #fffefe;
+	line-height: 1em;
+	height: 100%;
+/* 	font-size: 1em; */
+}
+
+/* --- structure --- */
+
+#container {
+	padding: 0px 20px 0px 20px;
+	margin-top: 20px;	                   
+	border-left-width: 0px;
+	border-bottom-width: 0px;                         
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-style: dotted;
+	width: 760px; /*800 - padding left + padding right*/
+}
+
+aside {
+	position: fixed;
+	height: 100%;
+	width: 100px;
+	background: #ededed; 
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;	
+}
+
+nav {
+	text-align: right;
+	line-height: 1.5em;
+	margin-top: 20px;
+	font-style: normal;
+	font-weight: normal;
+	color: #2a2a2a;
+	font-size: 0.9em;
+	margin-right: 5px;
+}
+
+nav li {
+	padding: 5px 0px 5px 0px;
+	text-transform: uppercase;
+
+}
+
+nav a {
+	font-size: 1.1em;
+	color: #151515;
+	background: #d5caff;
+	text-decoration: none;	
+	padding: 5px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+nav a:hover {
+	background: black;
+	color: white;
+}
+
+#mainsection {
+	width: 640px;
+	margin-left: 120px;
+	font-size: 1em;
+}
+
+header {
+	padding-left: 10px;
+	padding-top: 50px;
+	color: black;
+	background: #ddd;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	text-align: left;
+	vertical-align: bottom;
+	height: 35px;
+	width: 630px; /*640 - the padding left*/
+}
+
+footer {
+	text-transform: uppercase;
+	font-size: 0.8em;
+	text-align: right;
+}
+
+article, section {
+	font-size: 1em;
+/* 	padding-top: 20px; */
+	padding: 10px;
+	margin: 10px 0px 10px 0px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+}
+
+.top {
+	background: #555;
+	color: #eee;
+}
+
+.top a {
+	color: #a2a63d;
+	text-decoration: none;
+	padding: 0px 5px 0px 5px;
+
+}
+
+.top a:hover {
+	background-color: #f9fd73;
+	color: #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	padding: 0px 5px 0px 5px;
+
+}
+
+.info {
+	background: #5f5f5f;
+	color: #eee;
+}
+
+/* alternate articles */
+.edit {
+	background: #bab8b5;
+		
+}
+
+.add {
+	background-color: #b8beb6;
+}
+
+.changed {
+	background-color: #aeddc1 ;
+}
+
+.delete {
+	background-color: #c6b9be;	
+}
+
+.link {
+	letter-spacing: 0.3em;
+	font-size: 1.1em;
+	background: #a4dd56;
+	color: #111;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	padding: 5px;
+}
+
+.link:hover {
+	background: black;
+	color: #fff;
+	cursor: pointer;
+
+}
+
+
+#logo {
+	margin: 10px;	
+}
+
+
+/* --- text --- */
+
+h1 {
+	font-style: normal;
+	font-weight: normal;
+	letter-spacing: 5px;
+	font-size: 1.7em;
+	float: left;
+}
+
+h2 {
+	padding-bottom: 20px;
+	padding-top: 30px;
+	letter-spacing: 4px;
+	font-style: normal;
+	font-weight: normal;
+	color: #222c1a;
+	font-size: 1.5em;
+}
+
+h3 {
+	padding-bottom: 10px;
+	padding-top: 10px;
+	line-height: 20px;
+	letter-spacing: 3px;
+	font-style: normal;
+	font-weight: normal;
+	color: #262625;
+	font-size: 1.3em;
+}
+
+h3.expand {
+	letter-spacing: 0.3em;
+	background: #eee;
+	color: #333;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px 10px 5px 10px;	
+	width: 50%;
+}
+
+h3.expand:hover {
+	cursor: pointer;
+}
+
+p {
+	padding: 10px 0 10px 0px;
+	font-size: 1em;
+}
+
+
+#logout {
+	margin: 0px 8px 0px 0px;
+	float: right;
+}
+/*
+#logout a {
+	color: #fff;
+	text-decoration: none;
+}
+
+#logout a:hover {color: #000}
+*/
+
+
+p.title {
+	
+	font-variant: normal;	
+}
+
+label {
+	font-size: 0.9em;
+}
+
+.hide {
+	display: none;
+}
+
+#addpages, #editpages {
+	padding: 0px;
+	margin: 0px;	
+}
+
+.stat {
+	font-size: 1.7em;
+}
+
+
+
+
