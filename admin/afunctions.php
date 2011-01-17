@@ -1,7 +1,7 @@
 
 <?php /* functions for the admin area */ 
 
-include_once('../config.php');
+include_once('../include.php');
 
 include_once(AHOME . 'util/text.php');
 include_once(AHOME. 'util/mysqlutil.php');
@@ -36,13 +36,6 @@ function mainsection($t) {
 
 function set_header($h){
 	echo("<header><h1>$h</h1></header>\n");
-}
-
-function article($t) {
-	switch($t) {
-		case 's': echo("<article>\n"); break;
-		case 'e': echo("</article>\n"); break;
-	}
 }
 
 

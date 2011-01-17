@@ -1,4 +1,3 @@
-
 /*get the reset styles and that from the boilerplate css*/
 @import 'boilerplate.css';
 
@@ -7,243 +6,243 @@
 html { overflow-x: hidden;} /*this is so the main bit can't go under the sitebar...*/
 
 body {
-	color: #3d3d3d;
-	font-family: "Courier New", Courier, monospace;
-	background-color: #fffefe;
-	line-height: 1em;
-	height: 100%;
+color: #3d3d3d;
+font-family: "Courier New", Courier, monospace;
+background-color: #fffefe;
+line-height: 1em;
+height: 100%;
 }
 
 /* --- structure --- */
 
 #container {
-	padding: 0px 20px 0px 20px;
-	margin-top: 20px;	                   
-	border-left-width: 0px;
-	border-bottom-width: 0px;                         
-	border-right-width: 1px;
-	border-top-width: 0px;
-	border-style: dotted;
-	width: 760px; /*800 - padding left + padding right*/
+padding: 0px 20px 0px 20px;
+margin-top: 20px;
+border-left-width: 0px;
+border-bottom-width: 0px;
+border-right-width: 1px;
+border-top-width: 0px;
+border-style: dotted;
+width: 760px; /*800 - padding left + padding right*/
 }
 
 aside {
-	position: fixed;
-	height: 100%;
-	width: 100px;
-	background: #242424; 	
+position: fixed;
+height: 100%;
+width: 100px;
+background: #242424;
 }
 
 nav {
-	text-align: right;
-	line-height: 1.5em;
-	margin-top: 50px;
-	font-style: normal;
-	font-weight: normal;
-	color: #fefeff;
-	font-size: 0.9em;
-	margin-right: 5px;
+text-align: right;
+line-height: 1.5em;
+margin-top: 50px;
+font-style: normal;
+font-weight: normal;
+color: #fefeff;
+font-size: 0.9em;
+margin-right: 5px;
 }
 
 nav a {
-	font-size: 1.1em;
-	text-transform: uppercase;
-	text-decoration: none;
-	color: #fefefe;
+font-size: 1.1em;
+text-transform: uppercase;
+text-decoration: none;
+color: #fefefe;
 }
 
 nav a:hover {
-	background-color: white;
-	color: black;
+background-color: white;
+color: black;
 }
 
 #mainsection {
-	width: 640px;
-	margin-left: 120px;
-	font-size: 1em;
+width: 640px;
+margin-left: 120px;
+font-size: 1em;
 }
 
 
 
 header {
-	padding-left: 10px;
-	padding-top: 50px;
-	color: black;
-	background-image: url('/images/tilevertical.jpg');
- 	background-repeat: repeat;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-	text-align: left;
-	vertical-align: bottom;
-	height: 35px;
-	width: 630px; /*640 - the padding left*/
+padding-left: 10px;
+padding-top: 50px;
+color: black;
+background-image: url('/images/tilevertical.jpg');
+  background-repeat: repeat;
+-moz-border-radius: 15px;
+border-radius: 15px;
+text-align: left;
+vertical-align: bottom;
+height: 35px;
+width: 630px; /*640 - the padding left*/
 }
 
 article {
-	font-size: 1em;
-	padding-top: 20px;
+font-size: 1em;
+padding-top: 20px;
 }
 
 article a {
-	color: #a2a63d;
-	text-decoration: none;
+color: #a2a63d;
+text-decoration: none;
 }
 
 article a:hover {
-	background-color: #f9fd73;
-	color: #000;
+background-color: #f9fd73;
+color: #000;
 }
 
 footer {
-	text-transform: uppercase;
-	font-size: 0.8em;
-	text-align: right;
-	clear: both;
+text-transform: uppercase;
+font-size: 0.8em;
+text-align: right;
+clear: both;
 }
 
 
 /* --- text --- */
 
 h1 {
-	font-style: normal;
-	font-weight: normal;
-	letter-spacing: 5px;
-	font-size: 1.7em;
+font-style: normal;
+font-weight: normal;
+letter-spacing: 5px;
+font-size: 1.7em;
 }
 
 h2 {
-	padding-bottom: 20px;
-	padding-top: 30px;
-	letter-spacing: 4px;
-	font-style: normal;
-	font-weight: normal;
-	color: #222c1a;
-	font-size: 1.5em;
+padding-bottom: 20px;
+padding-top: 30px;
+letter-spacing: 4px;
+font-style: normal;
+font-weight: normal;
+color: #222c1a;
+font-size: 1.5em;
 }
 
 h3 {
-	padding-bottom: 10px;
-	padding-top: 10px;
-	line-height: 20px;
-	letter-spacing: 3px;
-	font-style: normal;
-	font-weight: normal;
-	color: #262625;
-	font-size: 1.2em;
+padding-bottom: 10px;
+padding-top: 10px;
+line-height: 20px;
+letter-spacing: 3px;
+font-style: normal;
+font-weight: normal;
+color: #262625;
+font-size: 1.2em;
 }
 
 p {
-	padding: 10px 0 10px 0px;
+padding: 10px 0 10px 0px;
 }
 
 #homepage {
-	padding-top: 20px;
+padding-top: 20px;
 }
 
 /* --- article specific --- */
 
 article header {
-	background: none;
+background: none;
 
-	padding: 0px 0px 10px 0px;
+padding: 0px 0px 10px 0px;
 
 }
 
 article header h2 {
-	padding: 5px 0px 5px 0px;
+padding: 5px 0px 5px 0px;
 }
 
 /* --- random things --- */
 
 .center {
-	margin: 0;	
-	padding: 0;
-	text-align: center;
+margin: 0;
+padding: 0;
+text-align: center;
 }
 
 .sixforty {
-	max-width: 640px;
+max-width: 640px;
 }
 
 .link {
-	background-color: #faff4c;
-	padding: 1px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	color: #111111;
-	cursor: pointer;
+background-color: #faff4c;
+padding: 1px;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+color: #111111;
+cursor: pointer;
 }
 
 .info {
-	display: none;
+display: none;
 }
 
 #homepagenav a {
-	padding: 1px;
-	margin-right: 10px;
-	color: #7819e3;
-	text-decoration: none;
-	font-size: 1em;
+padding: 1px;
+margin-right: 10px;
+color: #7819e3;
+text-decoration: none;
+font-size: 1em;
 }
 
 #homepagenav a:hover {
-	color: #000;
-	background-color: #8fffc2 ;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+color: #000;
+background-color: #8fffc2 ;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
 }
 
 .intro {
-	padding: 30px 0px 10px 0px;
+padding: 30px 0px 10px 0px;
 }
 
-/* - - - - PAGE - - - -  */
+/* - - - - PAGE - - - - */
 
 #page {
-	
+
 }
 
 
-/* - - - - GALLERY - - - -  */
+/* - - - - GALLERY - - - - */
 
 .gallery_list {
-	list-style: none;
-	margin: 10px 0px 0px 0px;
-	font-size: 1.1em;
+list-style: none;
+margin: 10px 0px 0px 0px;
+font-size: 1.1em;
 }
 
 .gallery_list li {
-	padding: 2px 0px 2px 0px;
+padding: 2px 0px 2px 0px;
 }
 
 .gallery_list a {
-	text-decoration: none;
-	color: #45843b;
-	padding: 1px;
+text-decoration: none;
+color: #45843b;
+padding: 1px;
 }
 
 .gallery_list a:hover {
-	color: #131313;
-	background-color: #fffa30 ;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+color: #131313;
+background-color: #fffa30 ;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
 }
 
 .gallery_item {
 
 }
 
-/* - - - - SHOWCASE - - - -  */
+/* - - - - SHOWCASE - - - - */
 
 article.showcase_item {
-	min-height: 250px;
+min-height: 250px;
 }
 
 .showcase_list {
-	
+
 }
 
 #showcase_page {
@@ -251,18 +250,18 @@ article.showcase_item {
 }
 
 .showcase_smallimage {
-	float: right;
+float: right;
 }
 
-/* - - - - SHOWCASE - - - -  */
+/* - - - - BLOG - - - - */
 
 article.blog_item {
-	height: 100px;
+height: 100px;
 }
 
 article.blog_item time {
-	font-size: 0.9em;
-	color: #999;
+font-size: 0.9em;
+color: #999;
 
 }
 
@@ -271,20 +270,20 @@ article.blog_item header {
 }
 
 article.blog_item footer {
-/* 	border-bottom-color: ; */
-	width: 200px;
+/* border-bottom-color: ; */
+width: 200px;
 }
 
 a.showcase_title {
-	color: #246492;
-	padding: 5px 0px 5px 0px;
-	background: #fff;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;	
+color: #246492;
+padding: 5px 0px 5px 0px;
+background: #fff;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
 }
 
 a.showcase_title:hover {
-	background-color: white;
-	cursor: pointer;
+background-color: white;
+cursor: pointer;
 }

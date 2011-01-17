@@ -1,5 +1,5 @@
 <?php 
-include_once('afunctions.php');
+include_once('./afunctions.php');
 
 get_html_head();
 
@@ -30,7 +30,6 @@ article('s');
 
 if(isset($_POST['user']) && isset($_POST['pass'])) {
 
-	require_once('config.php'); 
 
 	$u = $_POST['user'];
 	$p = $_POST['pass'];
@@ -53,9 +52,9 @@ if(isset($_POST['user']) && isset($_POST['pass'])) {
 
 }
 
-article('e');
 
-section('e');
+?>
+<?php 
 
 close_page();
 

@@ -23,8 +23,14 @@ define('AROOT', ROOT . 'admin/');
 
 //load configuration file
 include_once(HOME . 'config.php');
-//load all the useful things in life
-include_once(HOME . 'includes/load.php');
+
+/*
+load all the useful things in life,
+but only if it isn't in the admin area...
+*/
+if(!strpos($_SERVER['REQUEST_URI'], 'admin')) {
+	include_once(HOME . 'includes/load.php');
+}
 
 
 ?>

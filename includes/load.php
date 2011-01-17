@@ -6,7 +6,6 @@
 
 define('INC', HOME.'includes/');
 
-include_once(INC . './text.php');
 include_once(INC . './gets.php');
 
 function reinstantiate_pdo() {
