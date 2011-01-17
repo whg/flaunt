@@ -1,12 +1,11 @@
 <?php 
-include_once('afunctions.php');
+include_once('./afunctions.php');
 
-$pagetitle = 'heelooo';
+$pagetitle = 'Login';
 
 get_html_head();
 
 start_body();
-/* get_sidebar(); */
 
 mainsection('s');
 
@@ -32,7 +31,7 @@ if(isset($_GET['s']) && $_GET['s'] == 'lo') {
 		unset($_SESSION['status']);
 
 		if(isset($_COOKIE[session_name()])) 
-			setcookie(session_name(), '', time() - 5);
+			setcookie(session_name(), '', time() - 101);
 		
 		session_destroy();
 		

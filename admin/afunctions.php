@@ -38,6 +38,21 @@ function set_header($h){
 	echo("<header><h1>$h</h1></header>\n");
 }
 
+//these are really stupid, i don't think they are used
+//good if you don't want to drop out of php
+function section($t) {
+	switch($t) {
+		case 's': echo("<section>\n"); break;
+		case 'e': echo("</section>\n"); break;
+	}
+}
+
+function article($t) {
+	switch($t) {
+		case 's': echo("<article>\n"); break;
+		case 'e': echo("</article>\n"); break;
+	}
+}
 
 /* --- setters --- */
 

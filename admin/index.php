@@ -24,7 +24,7 @@ $pagenum = $pn[0];
 </section>
 
 <section class="info">
-<p>You have <span class="stat"><?php echo($pagenum)?></span> sections</p>
+<p>You have <span class="stat"><?php echo($pagenum)?></span> section(s)</p>
 
 </section>
 
