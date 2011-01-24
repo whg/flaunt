@@ -8,4 +8,7 @@
 get_html5shiv();
 get_jquery();
 get_scripts(); 
+
+get_random_header_background(7);
+
 ?>

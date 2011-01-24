@@ -38,6 +38,16 @@ function article($t) {
 	}
 }
 
+function get_random_header_background($n) {
+	$i = rand(1, $n);
+	$path = ROOT . "content/images/tile$i.jpg";
+	echo("
+	<style>
+	header { background-image: url('$path'); }
+	</style>
+	");
+}
+
 /* * * * * * * * HOMEPAGE * * * * * * *  */
 
 function current_page_number() {
