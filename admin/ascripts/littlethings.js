@@ -21,12 +21,10 @@ $(document).ready(function() {
 	
 	function changeHomepageOptions() {
 		if($("#hpselect").val() == 'page' || $("#hpselect").val() == 'image') {
-			console.log("pageimage");
 			$("#domanual").hide(400);
 			$("#choosefile").show(400);
 		}
 		else if($("#hpselect").val() == 'manual') {
-		console.log("nam");
 			$("#choosefile").hide(400);
 			$("#domanual").show(400);
 		}
