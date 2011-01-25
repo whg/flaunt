@@ -87,7 +87,9 @@ function get_homepage_product() {
 	echo('<div class="center">');
 	
 	if($hp_array['type'] == 'image') {
-		echo("<img src=\"$hp_array[path]\" alt=\"$hp_array[name]\" class=\"sixforty\"/>\n");
+		echo("<a href=\"$hp_array[path]\">
+		<img src=\"$hp_array[path]\" alt=\"$hp_array[name]\" class=\"sixforty\"/>
+		</a>\n");
 	}
 	else if($hp_array['type'] == 'page') include(HOME . $hp_array['path']);
 	
@@ -138,6 +140,9 @@ function get_sidebar_list_items() {
 	$stmt = $pdo->prepare("SELECT name,type FROM pages");
 	$stmt->execute();
 	$row = $stmt->fetchAll(PDO::FETCH_NUM);
+	
+	//always have home as link
+	echo('<li><a href="'.ROOT."\">Home</a></li>\n");
 	
 	foreach($row as $name) {
 		if($name[1] !== 'showcase') {
@@ -205,7 +210,7 @@ function get_gallery_photos($p) {
 	foreach($row as $post) {
 		echo ("
 		<article class=\"gallery_item\">
-		<h2 id=\"$post[name]\">$post[name]</h2>
+		<h3 id=\"$post[name]\">$post[name]</h3>
 		<figure>
 		<img src=\"$photopath$post[file]\" class=\"sixforty\" alt=\"$post[name]\" />
 		<p class=\"showinfo\"><span class=\"link\">info</span></p>
@@ -246,15 +251,16 @@ function get_showcase_items($p) {
 	$stmt = $pdo->prepare("SELECT * FROM $p ORDER BY no DESC");
 	$stmt->execute();
 	$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	
+		
 	foreach($row as $item) {
+		$summary = stripcslashes($item['summary']);
 		echo("
 		<article class=\"showcase_item\">
-		<h2><a class=\"showcase_title\" href=\"$item[name].php\">$item[name]</a></h2>
+		<h3><a class=\"showcase_title\" href=\"$item[name].php\">$item[name]</a></h3>
 		<a href=\"$item[name].php\">
 		<img src=\"data/$item[smallimage]\" class=\"showcase_smallimage\" alt=\"$item[name]\" />
 		</a>
-		<p>$item[summary]</p>
+		<p>$summary</p>
 		</article>
 		");
 	}
@@ -282,13 +288,15 @@ function get_blog_entries($p) {
 		$htime = date('d/m/Y', $time); //human time
 		$mtime = date('Y-m-d', $time); //machine time
 		
+		$ent = stripcslashes($entry['entry']);
+		
 		echo("
 		<article class=\"blog_item\">
 			<header>
-				<h2>$entry[title]</h2>
+				<h3>$entry[title]</h3>
 				<time datetime=\"$mtime\">$htime</time>
 			</header>
-			$entry[entry]
+			$ent
 			<footer>
 			</footer>
 		</article>

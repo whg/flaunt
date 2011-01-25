@@ -571,7 +571,7 @@ if(isset($_POST['showsection']) && $_POST['showsection'] == 'true') {
 <label>Item Name: </label>
 <input type="text" name="item" value="<?php echo($row['name'])?>" /><br />
 <label>Summary: </label><br />
-<textarea name="summary" cols="20" rows="5"><?php echo($row['summary'])?></textarea><br />
+<textarea name="summary" cols="20" rows="5"><?php echo(stripcslashes($row['summary']))?></textarea><br />
 <label>Page: </label><br />
 <textarea name="page" cols="20" rows="20"><?php echo($filec)?></textarea><br />
 <input type="submit" value="Commit Change" name="commititemedit"/>
@@ -765,7 +765,7 @@ if(isset($_POST['showsection']) && $_POST['showsection'] == 'true') {
 <label>Date: </label>
 <input type="text" name="date" value="<?php echo($row['date'])?>" /><br />
 <label>Entry: </label><br />
-<textarea name="entry" cols="20" rows="10"><?php echo($row['entry'])?></textarea><br />
+<textarea name="entry" cols="20" rows="10"><?php echo(stripcslashes($row['entry']))?></textarea><br />
 <input type="submit" value="Commit Change" name="commitblogedit"/>
 </form>
 

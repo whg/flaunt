@@ -19,8 +19,18 @@ function get_header() {
 
 }
 
+//deprecated use get_styles()
 function get_styles_path() {
 	echo (ROOT."themes/".THEMENAME."/css/stylesheet.css");
+}
+
+//first used this is scripts, why not with styles, eh
+function get_styles() {
+	foreach(glob(HOME."themes/".THEMENAME."/css/*.css") as $file) {
+		$p = strpos($file, 'themes');
+		$newfile = substr($file, $p);
+		echo('<link href="'.ROOT.$newfile.'" rel="stylesheet" type="text/css" />'."\n");
+	}
 }
 
 function get_html5shiv() {
@@ -39,7 +49,7 @@ function get_scripts() {
 	foreach(glob(HOME."themes/".THEMENAME."/scripts/*.js") as $file) {
 		$p = strpos($file, 'themes');
 		$newfile = substr($file, $p);
-		echo('<script src='.ROOT.$newfile."></script>\n");
+		echo('<script src="'.ROOT.$newfile."\"></script>\n");
 	}
 }
 
