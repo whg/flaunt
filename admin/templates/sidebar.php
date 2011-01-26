@@ -30,8 +30,9 @@
 			<li><a class="link" href="<?php echo(AROOT. 'delete.php')?>">Delete</a></li>
 			<li></li>
 			<li><a class="link" href="<?php echo(AROOT. 'menu.php')?>">Menu</a></li>
-			<li><a class="link" href="<?php echo(AROOT. 'upload.php')?>">Upload</a></li>
 			<li><a class="link" href="<?php echo(AROOT. 'style.php')?>">Style</a></li>
+			<li></li>
+			<li><a class="link" href="<?php echo(AROOT. 'upload.php')?>">Upload</a></li>
 		</ul>
 
 	</nav> 	
