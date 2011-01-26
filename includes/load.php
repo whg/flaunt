@@ -139,18 +139,23 @@ function get_sidebar_list_items() {
 	$pdo = reinstantiate_pdo();				
 	$stmt = $pdo->prepare("SELECT name,type FROM pages ORDER BY no ASC");
 	$stmt->execute();
-	$row = $stmt->fetchAll(PDO::FETCH_NUM);
+	$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
 	
 	//always have home as link
 	echo('<li><a href="'.ROOT."\">Home</a></li>\n");
 	
 	foreach($row as $name) {
-		if($name[1] !== 'showcase') {
-			echo('<li><a href="'.ROOT.$name[0].'.php">'.$name[0]."</a></li>\n");
+		//do the marker to separate the other items
+		if($name['type'] == 'marker') {
+			echo("<li class=\"marker\">$name[name]</li>\n");
+		}
+		else if($name['type'] !== 'showcase') {
+			echo('<li><a href="'.ROOT.$name['name'].'.php">'.$name['name']."</a></li>\n");
 		}
 		//for showcase direct to directory
-		else {
-			echo('<li><a href="'.ROOT."$name[0]\">".$name[0]."</a></li>\n");
+		else if($name['type'] == 'showcase') {
+			echo('<li><a href="'.ROOT."$name[name]\">".$name['name']."</a></li>\n");
 		}
 	}
 

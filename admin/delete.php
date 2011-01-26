@@ -101,12 +101,14 @@ if($message !== '') {
 <label>Select Page:</label>
 <select name="page">
 <?php 
-$stmt = $pdo->prepare("SELECT name FROM pages ORDER BY id DESC");
+$stmt = $pdo->prepare("SELECT name, type FROM pages ORDER BY id DESC");
 $stmt->execute();
 $row = $stmt->fetchAll(PDO::FETCH_NUM);
 foreach($row as $o) {
-	$val = $o[0];
-	echo "<option value=\"$val\">$val</option>\n";
+	if($o[1] !== 'marker') {
+		$val = $o[0];
+		echo "<option value=\"$val\">$val</option>\n";
+	}
 }
 ?>
 </select><br />

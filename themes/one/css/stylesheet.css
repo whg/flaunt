@@ -23,6 +23,8 @@ border-style: dotted;
 width: 760px; /*800 - padding left + padding right*/
 }
 
+/* - - - navigation - - - */
+
 aside {
 position: fixed;
 height: 100%;
@@ -58,6 +60,11 @@ border-radius: 3px;
 nav a:hover {
 background-color: white;
 color: black;
+}
+
+nav ul li.marker {
+	color: fuchsia;
+	margin: 5px 0px 5px 0px;
 }
 
 #mainsection {
