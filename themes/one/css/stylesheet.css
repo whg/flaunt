@@ -1,6 +1,3 @@
-/*get the reset styles and that from the boilerplate css*/
-@import 'boilerplate.css';
-
 /* --- generic --- */
 
 html { overflow-x: hidden;} /*this is so the main bit can't go under the sitebar...*/

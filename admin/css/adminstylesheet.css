@@ -266,6 +266,23 @@ label {
 	font-size: 1.7em;
 }
 
+#menusorter {
+	padding: 0px;
+	margin: 0px;
+}
 
+.sortmenu {
+	list-style-type: none;
+	background: #fefefe;
+	color: #343434;
+	text-transform: uppercase;
+	padding: 10px;
+	margin: 5px 5px 5px 0px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	width: 100px;
+	cursor: move;
+}
 
 

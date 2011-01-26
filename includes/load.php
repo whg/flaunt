@@ -137,7 +137,7 @@ function get_homepage_nav() {
 function get_sidebar_list_items() {
 	
 	$pdo = reinstantiate_pdo();				
-	$stmt = $pdo->prepare("SELECT name,type FROM pages");
+	$stmt = $pdo->prepare("SELECT name,type FROM pages ORDER BY no ASC");
 	$stmt->execute();
 	$row = $stmt->fetchAll(PDO::FETCH_NUM);
 	

@@ -108,7 +108,7 @@ if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 		else $message .= p_wrap("Homepage was not deleted, an error occured.");
 		if($un) $message .= p_wrap("File deleted");
 		if($rr && $r && $un) $message .= p_wrap("<b>All OK</b>");
-		else $message .= "Re-ordering failed... this is kinda bad...";
+		else $message .= p_wrap("<b>Not OK!</b>");
 	}
 }
 
@@ -288,7 +288,10 @@ if(isset($_POST['deletephoto']) && isset($_POST['photo']) && isset($_POST['sure'
 		if($r) $message.= p_wrap("Photo <b>$post</b> has been deleted. ");
 		else $message.= p_wrap("Photo was not deleted, an error occured.");
 		if($rr) $message.= p_wrap("<b>All OK</b>");
-		else $message.= p_wrap("Re-ordering failed... this is kinda bad...");
+		else {
+			$message.= p_wrap("Re-ordering failed... this is kinda bad...");
+			$message .= p_wrap("<b>Not OK!</b>");
+		}
 	}
 }
 
@@ -435,6 +438,7 @@ if(isset($_POST['addnewshowcase']) && isset($_POST['name'])) {
 		$message .= p_wrap("Both images added");
 		
 		if($c2 && $result && $c3) $message .= p_wrap("<b>All OK</b>");
+		else $message .= p_wrap("<b>Not OK!</b>");
 
 	}
 	
@@ -471,6 +475,7 @@ if(isset($_POST['deleteshowcaseitem']) && isset($_POST['item']) && isset($_POST[
 		if($u) $message .= p_wrap("<b>$item</b> page has been deleted");
 		
 		if($u && $r && $rr) $message .= p_wrap("<b>All OK</b>");
+		else $message .= p_wrap("<b>Not OK!</b>");
 	}
 }
 
@@ -492,6 +497,7 @@ if(isset($_POST['commititemedit']) && isset($_POST['item'])) {
 	if($r) $message .= p_wrap("Database updated");
 	if($rr) $message .= p_wrap("Page file updated");
 	if($r && $rr) $message .= p_wrap("<b>All OK</b>");
+	else $message .= p_wrap("<b>Not OK!</b>");
 }
 
 //show all messages
@@ -677,6 +683,7 @@ if(isset($_POST['deleteblogentry']) && isset($_POST['entry']) && isset($_POST['s
 		if($rr) $message .= p_wrap("Table has been reordered");
 		
 		if($r && $rr) $message .= p_wrap("<b>All OK</b>");
+		else $message .= p_wrap("<b>Not OK!</b>");
 
 	}
 }

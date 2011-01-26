@@ -18,9 +18,15 @@ if(!empty($_POST['name']) && isset($_POST['submit'])) {
 	$type = $_POST['type'];
 	$name = $_POST['name'];
 	
-	//add page to pages table
-	$stmt = $pdo->prepare("INSERT INTO pages(name, type) VALUES(?, ?)");
-	$c1 = $stmt->execute(array($name, $type));
+	//get current no of pages...	
+	$stmt = $pdo->prepare("SELECT COUNT(*) FROM pages");
+	$stmt->execute();
+	$currentno = $stmt->fetch(PDO::FETCH_NUM);
+	$no = $currentno[0] + 1;
+	
+	//add page to pages table... at the end
+	$stmt = $pdo->prepare("INSERT INTO pages(no, name, type) VALUES(?, ?, ?)");
+	$c1 = $stmt->execute(array($no, $name, $type));
 	if($c1) $message .= p_wrap("Added page <b>$name</b> to pages table");
 	
 	//create intro/page file - this is used on all types
@@ -77,6 +83,7 @@ if($type == 'gallery') {
 	if($r2) $message .= p_wrap("Created <b>$name</b> table");
 
 	if($r2 && $fh && $c1 && $c2) $message .= p_wrap("<b>All OK</b>");
+	else $message .= p_wrap("<b>Not OK!</b>");
 
 }
 else if($type == 'showcase') {
@@ -94,12 +101,14 @@ else if($type == 'showcase') {
 	if($r2) $message .= p_wrap("Created <b>$name</b> table");
 
 	if($r2 && $fh && $c1 && $c2) $message .= p_wrap("<b>All OK</b>");
+	else $message .= p_wrap("<b>Not OK!</b>");
 
 }
 else if($type == 'page') {	
 	
 	//final check
 	if($c1 && $fh && $c2) $message .= p_wrap("<b>All OK</b>");
+	else $message .= p_wrap("<b>Not OK!</b>");
 
 }
 else if($type == 'blog') {
@@ -116,6 +125,7 @@ else if($type == 'blog') {
 	if($r2) $message .= p_wrap("Created <b>$name</b> table");
 
 	if($r2 && $fh && $c1 && $c2) $message .= p_wrap("<b>All OK</b>");
+	else $message .= p_wrap("<b>Not OK!</b>");
 
 }
 

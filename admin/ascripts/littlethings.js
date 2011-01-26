@@ -1,12 +1,18 @@
 $(document).ready(function() {
-		
-	$("form :submit, form :button").hover(
+	
+	//just something we could do with css....
+	$("form :submit, form :button").hover(				
 		function() {
-			$(this).animate({ backgroundColor : "#555", color: '#fff' }, 400)			
+			$(this).css('backgroundColor', '#444');
+			$(this).css('color', '#eee');
+			$(this).css('borderColor', '#444');
 		},
 		function() {
-			$(this).animate({ backgroundColor : "#eee", color: '#555' }, 400);
-	});
+			$(this).css('backgroundColor', '#eee');
+			$(this).css('color', '#444');
+			$(this).css('borderColor', '#ddd #bbb #999');
+		}
+	);
 		
 	
 	//show children of menu...	
@@ -30,7 +36,40 @@ $(document).ready(function() {
 		}
 	}
     $("select").change(changeHomepageOptions);
-    changeHomepageOptions();
+	
+	$(function() {
+		$("#menusorter").sortable();
+		$("#menusorter").disableSelection();
+	});
+	
+	$("#menusorter").mouseleave(function(){
+		$("input:hidden").remove();
+		var no = 1;
+		$(this).children().each(function(){
+			$('<input>').attr({
+			    type: 'hidden',
+			    name: no++,
+			    value: $(this).html()
+			}).appendTo('form');
+
+		});
+	});
+	
+/*
+	$("#menusorter").mouseleave(function(){
+		var no = 1;
+		$(this).children().each(function(){
+			console.log("aaa");
+			var na = $(this).html();
+			if(no == $("input").attr("name")) {
+				$(this).attr("value", na);
+			}
+			no++;
+		
+		});
+	});
+*/
+	
 	
 	
 

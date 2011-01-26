@@ -14,7 +14,7 @@ if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 	if($_POST['delete'] == 'Delete' && $_POST['sure'] ==  'true') {
 		$name = $_POST['page'];
 		
-		//remove tables if there are any...
+		//find type of page...
 		$stmt = $pdo->prepare("SELECT type from pages where name=?");
 		$stmt->execute(array($name));
 		$row = $stmt->fetch();
@@ -31,6 +31,11 @@ if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 		$stmt = $pdo->prepare("DELETE FROM pages WHERE name=?");
 		$trow = $stmt->execute(array($name));
 		if($trow) $message .= p_wrap("Deleted page from table");
+		
+		//reorder table
+		$stmt = $pdo->prepare("SET @num = 0; UPDATE pages SET no= (SELECT @num := @num + 1)");
+		$rr = $stmt->execute();
+
 		
 		//delete data file
 		$fn = HOME . 'content/data/' . $name . '.html';
@@ -72,6 +77,7 @@ if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 		if($trow && $ddf && $dpf) {
 			$message .= p_wrap("<b>All OK</b>");
 		}
+		else $message .= p_wrap("<b>Not OK!</b>");
 	}
 }
 

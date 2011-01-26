@@ -26,9 +26,11 @@ function get_styles_path() {
 
 function get_script_libraries() {
 	$p = AROOT . 'ascripts/lib/color_plugin.js';
+	$q  = AROOT . 'ascripts/lib/jqueryui.min.js';
 	echo
 	"
 	<script src=\"$p\"></script>
+	<script src=\"$q\"></script>
 	";
 }
 

@@ -34,6 +34,7 @@ else die(mysql_error());
 
 $query = "CREATE TABLE pages (
 id INT NOT NULL AUTO_INCREMENT,
+no INT(4),
 name VARCHAR(20),
 type VARCHAR(10),
 PRIMARY KEY (id)
