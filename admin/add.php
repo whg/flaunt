@@ -17,6 +17,9 @@ $fh = 0;
 if(!empty($_POST['name']) && isset($_POST['submit'])) {
 	$type = $_POST['type'];
 	$name = $_POST['name'];
+	//create name with no whitespace or capitals
+	$nname = lowercase_nospace($name);
+
 	
 	//get current no of pages...	
 	$stmt = $pdo->prepare("SELECT COUNT(*) FROM pages");
@@ -30,18 +33,20 @@ if(!empty($_POST['name']) && isset($_POST['submit'])) {
 	if($c1) $message .= p_wrap("Added page <b>$name</b> to pages table");
 	
 	//create intro/page file - this is used on all types
-	$fm = HOME . 'content/data/' . $name . '.html';
+	$fm = HOME . 'content/data/' . $nname . '.html';
 	$fh = fopen($fm, 'w');
 	fclose($fh);
 	if($fh) $message .= p_wrap("Made file in data folder");
 	
 	if($type !== 'showcase') {
-		//create page
-		$dest = HOME . "$name.php";	
+		//create page in root
+		//if there is space in the name remove it, so we don't get a messy %20
+		//also make it lowercase
+		$dest = HOME . "$nname.php";	
 		$ffh = fopen($dest, 'w');
-	
+		//write
 		$c2 = fwrite($ffh, addpage($name, $type));
-	
+		//and close
 		fclose($ffh);
 		chmod($dest, 0774);
 		if($c2) $message .= p_wrap("Page created");
@@ -50,7 +55,8 @@ if(!empty($_POST['name']) && isset($_POST['submit'])) {
 	// - - - - for showcase - - - - 
 	else {
 		//create folder for showcase
-		$dest = HOME . $name;
+		//remove any space and stuff
+		$dest = HOME . $nname;
 		mkdir($dest);
 		chmod($dest, 0774);
 		mkdir($dest. '/data');
@@ -58,21 +64,19 @@ if(!empty($_POST['name']) && isset($_POST['submit'])) {
 		
 		//create index page
 		$ffh = fopen($dest . '/index.php', 'w');
+		//addpage() puts all the goodness in... basically includes...
 		$c2 = fwrite($ffh, addpage($name, $type));	
 		fclose($ffh);
 		chmod($dest . '/index.php', 0774);
 		if($c2) $message .= p_wrap("Page created");
 	}
-}
-//submitting with no name...
-else if(empty($_POST['name']) && isset($_POST['submit'])){
-	$message = "A page must have a name.";
-}
-
-if($type == 'gallery') {
+	
+/* 	- - - - - NOW DO THE TYPES - - - - - - */
+	
+	if($type == 'gallery') {
 	
 	//add create own table for data
-	$stmt = $pdo->prepare("CREATE TABLE $name(
+	$stmt = $pdo->prepare("CREATE TABLE $nname(
 	id INT NOT NULL AUTO_INCREMENT,
 	no INT(4),
 	name VARCHAR(20),
@@ -80,54 +84,61 @@ if($type == 'gallery') {
 	caption TEXT,
 	PRIMARY KEY (id)) ENGINE MyISAM");
 	$r2 = $stmt->execute();
-	if($r2) $message .= p_wrap("Created <b>$name</b> table");
+	if($r2) $message .= p_wrap("Created <b>$nname</b> table");
 
 	if($r2 && $fh && $c1 && $c2) $message .= p_wrap("<b>All OK</b>");
 	else $message .= p_wrap("<b>Not OK!</b>");
 
-}
-else if($type == 'showcase') {
+	}
+	else if($type == 'showcase') {
+		
+		//create own table for showcase data
+		$stmt = $pdo->prepare("CREATE TABLE $nname(
+		id INT NOT NULL AUTO_INCREMENT,
+		no INT(4),
+		name VARCHAR(20),
+		summary TEXT,
+		smallimage VARCHAR(20),
+		headerimage VARCHAR(20),
+		PRIMARY KEY (id)) ENGINE MyISAM");
+		$r2 = $stmt->execute();
+		if($r2) $message .= p_wrap("Created <b>$nname</b> table");
 	
-	//create own table for showcase data
-	$stmt = $pdo->prepare("CREATE TABLE $name(
-	id INT NOT NULL AUTO_INCREMENT,
-	no INT(4),
-	name VARCHAR(20),
-	summary TEXT,
-	smallimage VARCHAR(20),
-	headerimage VARCHAR(20),
-	PRIMARY KEY (id)) ENGINE MyISAM");
-	$r2 = $stmt->execute();
-	if($r2) $message .= p_wrap("Created <b>$name</b> table");
-
-	if($r2 && $fh && $c1 && $c2) $message .= p_wrap("<b>All OK</b>");
-	else $message .= p_wrap("<b>Not OK!</b>");
-
-}
-else if($type == 'page') {	
+		if($r2 && $fh && $c1 && $c2) $message .= p_wrap("<b>All OK</b>");
+		else $message .= p_wrap("<b>Not OK!</b>");
 	
-	//final check
-	if($c1 && $fh && $c2) $message .= p_wrap("<b>All OK</b>");
-	else $message .= p_wrap("<b>Not OK!</b>");
+	}
+	else if($type == 'page') {	
+		
+		//final check
+		if($c1 && $fh && $c2) $message .= p_wrap("<b>All OK</b>");
+		else $message .= p_wrap("<b>Not OK!</b>");
+	
+	}
+	else if($type == 'blog') {
+	
+		//create own table for blog data
+		$stmt = $pdo->prepare("CREATE TABLE $nname(
+		id INT NOT NULL AUTO_INCREMENT,
+		no INT(4),
+		title VARCHAR(20),
+		date DATETIME,
+		entry MEDIUMTEXT,
+		PRIMARY KEY (id)) ENGINE MyISAM");
+		$r2 = $stmt->execute();
+		if($r2) $message .= p_wrap("Created <b>$nname</b> table");
+	
+		if($r2 && $fh && $c1 && $c2) $message .= p_wrap("<b>All OK</b>");
+		else $message .= p_wrap("<b>Not OK!</b>");
+	
+	}
 
 }
-else if($type == 'blog') {
-
-	//create own table for blog data
-	$stmt = $pdo->prepare("CREATE TABLE $name(
-	id INT NOT NULL AUTO_INCREMENT,
-	no INT(4),
-	title VARCHAR(20),
-	date DATETIME,
-	entry MEDIUMTEXT,
-	PRIMARY KEY (id)) ENGINE MyISAM");
-	$r2 = $stmt->execute();
-	if($r2) $message .= p_wrap("Created <b>$name</b> table");
-
-	if($r2 && $fh && $c1 && $c2) $message .= p_wrap("<b>All OK</b>");
-	else $message .= p_wrap("<b>Not OK!</b>");
-
+//submitting with no name...
+else if(empty($_POST['name']) && isset($_POST['submit'])){
+	$message = "A page must have a name.";
 }
+
 
 //do this here so that the new page gets added to the sidebar...
 

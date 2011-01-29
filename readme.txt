@@ -20,8 +20,8 @@ to get started:
 4. load adduser.php in yoursite/admin/adduser.php in your browser and fill in your name and password
 5. if you are the only user, delete adduser.php
 7. change the permissions for the root folder and the content folder so your server can write
-7. load yoursite/admin in your browser and login
-8. flaunt your stuff...
+8. load yoursite/admin in your browser and login
+9. flaunt your stuff...
 
 Documentation can be found in the docs folder in the root directory
 

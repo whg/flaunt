@@ -13,10 +13,6 @@ get_header();
 get_intro($pagetitle);
 
 get_blog_entries($pagetitle);
-/*
-get_gallery_list($pagetitle);
-get_gallery_photos($pagetitle);
-*/
 
 
 ?>

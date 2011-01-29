@@ -9,8 +9,10 @@ if(isset($_GET['type'])) {
 }
 
 $name = '';
+$nname = ''; //this is the one with no capitals or whitespace
 if(isset($_GET['name'])) {
 	$name = mysql_string_fix($_GET['name']);
+	$nname = lowercase_nospace($name);
 }
 
 $pagetitle = 'Edit ' . $name;
@@ -185,7 +187,7 @@ foreach($row as $o) {
 
 // * * * * * * * edit page script * * * * * * * 
 if($type == 'page') {
-$contentpath = HOME . 'content/data/' . $name . '.html';
+$contentpath = HOME . 'content/data/' . $nname . '.html';
 $rw = 0;
 if(isset($_POST['content']) && isset($_POST['change'])) {
 /* 	$newcontent = $_POST['content']; */
@@ -246,15 +248,15 @@ if(isset($_POST['uploadimage']) && isset($_POST['name'])) {
 		//get names
 		$photoname = $_POST['name'];
 		$caption = $_POST['caption'];
-		$path = 'content/photo/' . $fileName;
+		$path = 'content/images/' . $fileName; //is this used anymore?
 		
-		$stmt = $pdo->prepare("SELECT COUNT(*) FROM $name");
+		$stmt = $pdo->prepare("SELECT COUNT(*) FROM $nname");
 		$stmt->execute();
 		$currentno = $stmt->fetch(PDO::FETCH_NUM);
 		$no = $currentno[0] + 1;
 			
 		//enter details into database
-		$stmt = $pdo->prepare("INSERT INTO $name(no, name, file, caption) VALUES(?,?,?,?)");
+		$stmt = $pdo->prepare("INSERT INTO $nname(no, name, file, caption) VALUES(?,?,?,?)");
 		$result = $stmt->execute(array($no, $photoname, $fileName, $caption));	
 		
 		if(!$result) $message.= p_wrap("Database Error, photo not added");
@@ -264,7 +266,7 @@ if(isset($_POST['uploadimage']) && isset($_POST['name'])) {
 
 // * * * * * * * edit gallery intro script * * * * * * * 
 
-$contentpath = HOME . 'content/data/' . $name . '.html';
+$contentpath = HOME . 'content/data/' . $nname . '.html';
 $rw = 0;
 if(isset($_POST['content']) && isset($_POST['change'])) {
 	$rw = file_put_contents($contentpath, $_POST['content']);
@@ -273,25 +275,38 @@ if(isset($_POST['content']) && isset($_POST['change'])) {
 $oldcontent = file_get_contents($contentpath);
 
 /* --- delete photo script --- */
+
 $delphoto = 0;
 if(isset($_POST['deletephoto']) && isset($_POST['photo']) && isset($_POST['sure'])) {
 	if($_POST['deletephoto'] == 'Delete' && $_POST['sure'] ==  'true') {
 		$delphoto = 1;
 		$post = $_POST['photo'];
 		
-		$stmt = $pdo->prepare("DELETE FROM $name WHERE name=?");
+		//delete photo file
+		$stmt = $pdo->prepare("SELECT file FROM $nname WHERE name=?");
+		$stmt->execute(array($post));
+		$df = $stmt->fetch();
+		$filepath = HOME . 'content/images/'. $df[0];
+		//and delete file...
+		$ddf = unlink($filepath);
+
+		//delete row in table
+		$stmt = $pdo->prepare("DELETE FROM $nname WHERE name=?");
 		$r = $stmt->execute(array($post));
 	
-		$stmt = $pdo->prepare("SET @num = 0; UPDATE homepage SET no= (SELECT @num := @num + 1)");
+		$stmt = $pdo->prepare("SET @num = 0; UPDATE $nname SET no= (SELECT @num := @num + 1)");
 		$rr = $stmt->execute();
 		
 		if($r) $message.= p_wrap("Photo <b>$post</b> has been deleted. ");
 		else $message.= p_wrap("Photo was not deleted, an error occured.");
-		if($rr) $message.= p_wrap("<b>All OK</b>");
+		if($rr) $message.= p_wrap("Re-ordering done");
 		else {
 			$message.= p_wrap("Re-ordering failed... this is kinda bad...");
-			$message .= p_wrap("<b>Not OK!</b>");
 		}
+		if($ddf) $message.= p_wrap("Image has been deleted from folder");
+		else $message.= p_wrap("Image was not deleted!");
+		if($r && $rr && $ddf) $message.= p_wrap("<b>All OK</b>");
+		else $message.= p_wrap("<b>Not OK!</b>");
 	}
 }
 
@@ -342,7 +357,7 @@ if($message !== '') {
 <select name="photo">
 <?php 
 //get all photos in gallery...
-$stmt = $pdo->prepare("SELECT name FROM $name ORDER BY no DESC");
+$stmt = $pdo->prepare("SELECT name FROM $nname ORDER BY no DESC");
 $stmt->execute();
 $row = $stmt->fetchAll(PDO::FETCH_NUM);
 foreach($row as $o) {
@@ -373,7 +388,7 @@ if($type == 'showcase') {
 
 /* --- add new showcase item script --- */
 
-$uploadDir = HOME . "$name/data/";
+$uploadDir = HOME . "$nname/data/";
 
 if(isset($_POST['addnewshowcase']) && isset($_POST['name'])) {
 	
@@ -407,20 +422,22 @@ if(isset($_POST['addnewshowcase']) && isset($_POST['name'])) {
 		$smallimagepath = $fileName1;
 		$headerimagepath = $fileName2;
 		
-		$stmt = $pdo->prepare("SELECT COUNT(*) FROM $name");
+		$stmt = $pdo->prepare("SELECT COUNT(*) FROM $nname");
 		$stmt->execute();
 		$currentno = $stmt->fetch(PDO::FETCH_NUM);
 		$no = $currentno[0] + 1;
 			
 		//enter details into database
-		$stmt = $pdo->prepare("INSERT INTO $name(no, name, summary, smallimage, headerimage) VALUES(?,?,?,?,?)");
+		$stmt = $pdo->prepare("INSERT INTO $nname(no, name, summary, smallimage, headerimage) VALUES(?,?,?,?,?)");
 		$result = $stmt->execute(array($no, $item, $summary, $smallimagepath, $headerimagepath));	
 		
 		if(!$result) $message .= p_wrap("Database Error, item not added");
 		else $message .= p_wrap("<b>$item</b> has been added to $name");
 	
 		//create page
-		$dest = HOME . "$name/$item.php";	
+		//remove space for filename..
+		$nitem = lowercase_nospace($item);
+		$dest = HOME . "$nname/$nitem.php";	
 		$ffh = fopen($dest, 'w');
 		$c2 = fwrite($ffh, add_showcase_page($item, $name));
 		fclose($ffh);
@@ -428,7 +445,7 @@ if(isset($_POST['addnewshowcase']) && isset($_POST['name'])) {
 		if($c2) $message .= p_wrap("Page created");
 		
 		//create data file, this is a php file so it has the ability to do fun stuff
-		$dest = $uploadDir . "$item.php";	
+		$dest = $uploadDir . "$nitem.php";	
 		$ffh2 = fopen($dest, 'w');
 		$c3 = fwrite($ffh2, $page);
 		fclose($ffh2);
@@ -445,7 +462,7 @@ if(isset($_POST['addnewshowcase']) && isset($_POST['name'])) {
 }
 
 // * * * * * * * edit showcase intro script * * * * * * * 
-$contentpath = HOME . 'content/data/' . $name . '.html';
+$contentpath = HOME . 'content/data/' . $nname . '.html';
 $rw = 0;
 if(isset($_POST['content']) && isset($_POST['changeshowcaseintro'])) {
 	$rw = file_put_contents($contentpath, $_POST['content']);
@@ -461,17 +478,18 @@ if(isset($_POST['deleteshowcaseitem']) && isset($_POST['item']) && isset($_POST[
 		$delitem = 1;
 		$item = $_POST['item'];
 		
-		$stmt = $pdo->prepare("DELETE FROM $name WHERE name=?");
+		$stmt = $pdo->prepare("DELETE FROM $nname WHERE name=?");
 		$r = $stmt->execute(array($item));
 		
 		//reorder no column in table
-		$stmt = $pdo->prepare("SET @num = 0; UPDATE homepage SET no= (SELECT @num := @num + 1)");
+		$stmt = $pdo->prepare("SET @num = 0; UPDATE $nname SET no= (SELECT @num := @num + 1)");
 		$rr = $stmt->execute();
 		
-		if($r && $rr) $message .= p_wrap("<b>$item</b> has been deleted from <b>$name</b> table");
+		if($r && $rr) $message .= p_wrap("<b>$item</b> has been deleted from <b>$nname</b> table");
 		
 		//delete file in showcase folder
-		$u = unlink(HOME . "$name/$item.php");
+		$nitem = lowercase_nospace($item);
+		$u = unlink(HOME . "$nname/$nitem.php");
 		if($u) $message .= p_wrap("<b>$item</b> page has been deleted");
 		
 		if($u && $r && $rr) $message .= p_wrap("<b>All OK</b>");
@@ -488,10 +506,12 @@ if(isset($_POST['commititemedit']) && isset($_POST['item'])) {
 	$summary = mysql_string_fix($_POST['summary']);
 	$page = $_POST['page'];
 	
-	$stmt = $pdo->prepare("UPDATE $name SET name=?, summary=? WHERE no=?");
+	$stmt = $pdo->prepare("UPDATE $nname SET name=?, summary=? WHERE no=?");
 	$r = $stmt->execute(array($item, $summary, $no));
 	
-	$dest = HOME . $name . "/data/$item.php";
+	//with no space...
+	$nitem = lowercase_nospace($item);
+	$dest = HOME . $nname . "/data/$nitem.php";
 	$rr = file_put_contents($dest, $page);
 	
 	if($r) $message .= p_wrap("Database updated");
@@ -541,7 +561,7 @@ else {
 <select name="item">
 <?php 
 //get all entries ...
-$stmt = $pdo->prepare("SELECT name FROM $name ORDER BY no DESC");
+$stmt = $pdo->prepare("SELECT name FROM $nname ORDER BY no DESC");
 $stmt->execute();
 $row = $stmt->fetchAll(PDO::FETCH_NUM);
 foreach($row as $o) {
@@ -561,13 +581,14 @@ if(isset($_POST['showsection']) && $_POST['showsection'] == 'true') {
 	$item = $_POST['item'];
 	
 	//get database info
-	$stmt = $pdo->prepare("SELECT * FROM $name WHERE name=?");
+	$stmt = $pdo->prepare("SELECT * FROM $nname WHERE name=?");
 	$stmt->execute(array($item));
 	$rowo = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	$row = $rowo[0];
 	
 	//get data file contents
-	$dest = HOME . $name . "/data/$item.php";
+	$nitem = lowercase_nospace($item);
+	$dest = HOME . $nname . "/data/$nitem.php";
 	$filec = file_get_contents($dest);
 
 	//now do the form....
@@ -610,7 +631,7 @@ if(isset($_POST['showsection']) && $_POST['showsection'] == 'true') {
 <select name="item">
 <?php 
 //get all photos in gallery...
-$stmt = $pdo->prepare("SELECT name FROM $name ORDER BY no DESC");
+$stmt = $pdo->prepare("SELECT name FROM $nname ORDER BY no DESC");
 $stmt->execute();
 $row = $stmt->fetchAll(PDO::FETCH_NUM);
 foreach($row as $o) {
@@ -645,20 +666,20 @@ if(isset($_POST['addblogentry']) && isset($_POST['title'])) {
 	$date = get_mysql_date();
 	$entry = $_POST['entry'];
 	
-	$stmt = $pdo->prepare("SELECT COUNT(*) FROM $name");
+	$stmt = $pdo->prepare("SELECT COUNT(*) FROM $nname");
 	$stmt->execute();
 	$currentno = $stmt->fetch(PDO::FETCH_NUM);
 	$no = $currentno[0] + 1;
 		
 	//enter details into database
-	$stmt = $pdo->prepare("INSERT INTO $name(no, title, date, entry) VALUES(?,?,?,?)");
+	$stmt = $pdo->prepare("INSERT INTO $nname(no, title, date, entry) VALUES(?,?,?,?)");
 	$result = $stmt->execute(array($no, $title, $date, $entry));	
 
 	if($result) $message .= p_wrap("Entry <b>$title</b> added");
 }
 
 // * * * * * * * EDIT INTRO * * * * * * * 
-$contentpath = HOME . 'content/data/' . $name . '.html';
+$contentpath = HOME . 'content/data/' . $nname . '.html';
 if(isset($_POST['content']) && isset($_POST['changeblogintro'])) {
 	$rw = file_put_contents($contentpath, $_POST['content']);
 	if($rw) $message .= p_wrap("File re-written");
@@ -672,11 +693,11 @@ if(isset($_POST['deleteblogentry']) && isset($_POST['entry']) && isset($_POST['s
 		$delitem = 1;
 		$entry = $_POST['entry'];
 		
-		$stmt = $pdo->prepare("DELETE FROM $name WHERE title=?");
+		$stmt = $pdo->prepare("DELETE FROM $nname WHERE title=?");
 		$r = $stmt->execute(array($entry));
 		
 		//reorder no column in table
-		$stmt = $pdo->prepare("SET @num = 0; UPDATE homepage SET no= (SELECT @num := @num + 1)");
+		$stmt = $pdo->prepare("SET @num = 0; UPDATE $nname SET no= (SELECT @num := @num + 1)");
 		$rr = $stmt->execute();
 		
 		if($r) $message .= p_wrap("<b>$entry</b> has been deleted from <b>$name</b> table");
@@ -695,7 +716,7 @@ if(isset($_POST['commitblogedit']) && isset($_POST['entry'])) {
 	$date = mysql_string_fix($_POST['date']);
 	$entry = mysql_string_fix($_POST['entry']);
 	
-	$stmt = $pdo->prepare("UPDATE $name SET title=?, date=?, entry=? WHERE no=?");
+	$stmt = $pdo->prepare("UPDATE $nname SET title=?, date=?, entry=? WHERE no=?");
 	$r = $stmt->execute(array($title, $date, $entry, $no));
 	
 	if($r) $message .= p_wrap("Entry <b>$title</b> edited");
@@ -739,7 +760,7 @@ else {
 <select name="entry">
 <?php 
 //get all entries ...
-$stmt = $pdo->prepare("SELECT title FROM $name ORDER BY no DESC");
+$stmt = $pdo->prepare("SELECT title FROM $nname ORDER BY no DESC");
 $stmt->execute();
 $row = $stmt->fetchAll(PDO::FETCH_NUM);
 foreach($row as $o) {
@@ -758,7 +779,7 @@ if(isset($_POST['showsection']) && $_POST['showsection'] == 'true') {
 	$entry = $_POST['entry'];
 	
 	//get all info
-	$stmt = $pdo->prepare("SELECT * FROM $name WHERE title=?");
+	$stmt = $pdo->prepare("SELECT * FROM $nname WHERE title=?");
 	$stmt->execute(array($entry));
 	$rowo = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	$row = $rowo[0];
@@ -802,7 +823,7 @@ if(isset($_POST['showsection']) && $_POST['showsection'] == 'true') {
 <select name="entry">
 <?php 
 //get all entries ...
-$stmt = $pdo->prepare("SELECT title FROM $name ORDER BY no DESC");
+$stmt = $pdo->prepare("SELECT title FROM $nname ORDER BY no DESC");
 $stmt->execute();
 $row = $stmt->fetchAll(PDO::FETCH_NUM);
 foreach($row as $o) {

@@ -22,6 +22,15 @@ function reinstantiate_pdo() {
 	return $pdo;
 }
 
+//use this for filenames and stuff...
+function lowercase_nospace($a) {
+	//make lowercase
+	$b = strtolower($a);
+	//remove single space
+	$c = str_replace(" ", "", $b);
+	return $c;
+}
+
 //these are really stupid, i don't think they are used
 //good if you don't want to drop out of php
 function section($t) {
@@ -146,16 +155,19 @@ function get_sidebar_list_items() {
 	echo('<li><a href="'.ROOT."\">Home</a></li>\n");
 	
 	foreach($row as $name) {
+		//get nospace and capital files...
+		$nname = lowercase_nospace($name['name']);
+	
 		//do the marker to separate the other items
 		if($name['type'] == 'marker') {
 			echo("<li class=\"marker\">$name[name]</li>\n");
 		}
 		else if($name['type'] !== 'showcase') {
-			echo('<li><a href="'.ROOT.$name['name'].'.php">'.$name['name']."</a></li>\n");
+			echo('<li><a href="'.ROOT.$nname.'.php">'.$name['name']."</a></li>\n");
 		}
 		//for showcase direct to directory
 		else if($name['type'] == 'showcase') {
-			echo('<li><a href="'.ROOT."$name[name]\">".$name['name']."</a></li>\n");
+			echo('<li><a href="'.ROOT."$nname\">".$name['name']."</a></li>\n");
 		}
 	}
 
@@ -178,22 +190,28 @@ function get_sidebar_image() {
 /* * * * * * * * PAGE * * * * * * *  */
 
 function get_page_contents($pagetitle){
+	//remove whitespace and stuff
+	$npagetitle = lowercase_nospace($pagetitle);
 	echo("<section id=\"page\">\n");
-	include(HOME.'content/data/'.$pagetitle.'.html');
+	include(HOME.'content/data/'.$npagetitle.'.html');
+	echo("</section>\n\n");
+}
+
+
+function get_intro($p) {
+	//remove whitespace and stuff
+	$np = lowercase_nospace($p);
+	echo("<section class=\"intro\">\n");
+	include(HOME.'content/data/'.$np.'.html');
 	echo("</section>\n\n");
 }
 
 /* * * * * * * * GALLERY * * * * * * *  */
 
-function get_intro($p) {
-	echo("<section class=\"intro\">\n");
-	include(HOME.'content/data/'.$p.'.html');
-	echo("</section>\n\n");
-}
-
 function get_gallery_list($p) {
+	$np = lowercase_nospace($p);
 	$pdo = reinstantiate_pdo();				
-	$stmt = $pdo->prepare("SELECT name FROM $p ORDER BY no DESC");
+	$stmt = $pdo->prepare("SELECT name FROM $np ORDER BY no DESC");
 	$stmt->execute();
 	$row = $stmt->fetchAll(PDO::FETCH_COLUMN);
 	
@@ -205,8 +223,9 @@ function get_gallery_list($p) {
 }
 
 function get_gallery_photos($p) {
+	$np = lowercase_nospace($p);
 	$pdo = reinstantiate_pdo();
-	$stmt = $pdo->prepare("SELECT * FROM $p ORDER BY no DESC");
+	$stmt = $pdo->prepare("SELECT * FROM $np ORDER BY no DESC");
 	$stmt->execute();
 	$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	
@@ -231,16 +250,18 @@ function get_gallery_photos($p) {
 /* * * * * * * * SHOWCASE * * * * * * *  */
 
 function get_headerimage_path($p, $item) {
+	$np = lowercase_nospace($p);
 	$pdo = reinstantiate_pdo();				
-	$stmt = $pdo->prepare("SELECT headerimage FROM $p WHERE name=?");
+	$stmt = $pdo->prepare("SELECT headerimage FROM $np WHERE name=?");
 	$stmt->execute(array($item));
 	$result = $stmt->fetch();
 	echo("data/" . $result[0]);
 }
 
 function get_showcase_list($p) {
+	$np = lowercase_nospace($p);
 	$pdo = reinstantiate_pdo();				
-	$stmt = $pdo->prepare("SELECT name FROM $p ORDER BY no DESC");
+	$stmt = $pdo->prepare("SELECT name FROM $np ORDER BY no DESC");
 	$stmt->execute();
 	$row = $stmt->fetchAll(PDO::FETCH_COLUMN);
 	
@@ -252,17 +273,20 @@ function get_showcase_list($p) {
 }
 
 function get_showcase_items($p) {
+	$np = lowercase_nospace($p);
 	$pdo = reinstantiate_pdo();
-	$stmt = $pdo->prepare("SELECT * FROM $p ORDER BY no DESC");
+	$stmt = $pdo->prepare("SELECT * FROM $np ORDER BY no DESC");
 	$stmt->execute();
 	$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		
 	foreach($row as $item) {
 		$summary = stripcslashes($item['summary']);
+		//remove space
+		$nitem = lowercase_nospace($item['name']);
 		echo("
 		<article class=\"showcase_item\">
-		<h3><a class=\"showcase_title\" href=\"$item[name].php\">$item[name]</a></h3>
-		<a href=\"$item[name].php\">
+		<h3><a class=\"showcase_title\" href=\"$nitem.php\">$item[name]</a></h3>
+		<a href=\"$nitem.php\">
 		<img src=\"data/$item[smallimage]\" class=\"showcase_smallimage\" alt=\"$item[name]\" />
 		</a>
 		<p>$summary</p>
@@ -273,16 +297,19 @@ function get_showcase_items($p) {
 }
 
 function get_showcase_page_contents($item) {
+	//remove space
+	$nitem = lowercase_nospace($item);
 	echo("<section id=\"showcase_page\">\n");
-	include('./data/'.$item.'.php');
+	include('./data/'.$nitem.'.php');
 	echo("</section>\n\n");
 }
 
 /* * * * * * * * BLOG * * * * * * *  */
 
 function get_blog_entries($p) {
+	$np = lowercase_nospace($p);
 	$pdo = reinstantiate_pdo();
-	$stmt = $pdo->prepare("SELECT * FROM $p ORDER BY no DESC");
+	$stmt = $pdo->prepare("SELECT * FROM $np ORDER BY no DESC");
 	$stmt->execute();
 	$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	

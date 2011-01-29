@@ -20,4 +20,12 @@ function p_wrap($t) {
 	return '<p>'.$t.'</p>';
 }
 
+function lowercase_nospace($a) {
+	//make lowercase
+	$b = strtolower($a);
+	//remove single space
+	$c = str_replace(" ", "", $b);
+	return $c;
+}
+
 ?>

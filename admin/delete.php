@@ -13,7 +13,7 @@ $message = '';
 if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 	if($_POST['delete'] == 'Delete' && $_POST['sure'] ==  'true') {
 		$name = $_POST['page'];
-		
+		$nname = lowercase_nospace($name);
 		//find type of page...
 		$stmt = $pdo->prepare("SELECT type from pages where name=?");
 		$stmt->execute(array($name));
@@ -22,7 +22,7 @@ if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 		
 		//for showcase, gallery and blog
 		if($type !== 'page') {
-			$stmt = $pdo->prepare("DROP TABLE $name");
+			$stmt = $pdo->prepare("DROP TABLE $nname");
 			$del = $stmt->execute();
 			if($del) $message .= p_wrap("Table deleted");
 		}
@@ -38,39 +38,39 @@ if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 
 		
 		//delete data file
-		$fn = HOME . 'content/data/' . $name . '.html';
+		$fn = HOME . 'content/data/' . $nname . '.html';
 		$ddf = unlink($fn);
 		if($ddf) $message .= p_wrap("Deleted data file");
 		
 		$dpf = 0;
 		if($type !== 'showcase') {
 			//delete page file
-			$fdn = HOME . $name . '.php';
+			$fdn = HOME . $nname . '.php';
 			$dpf = unlink($fdn);
 			if($dpf) $message .= p_wrap("Deleted page file");
 		}
 		//if showcase
 		else {
 			
-			foreach(glob(HOME.$name."/data/*") as $imagefile) {
+			foreach(glob(HOME.$nname."/data/*") as $imagefile) {
 				unlink($imagefile);
 			}
 			//this silly file can ruin things somewhat...
-			if(file_exists(HOME . $name . '/data/.DS_Store')) {
-				unlink(HOME . $name . '/data/.DS_Store');
+			if(file_exists(HOME . $nname . '/data/.DS_Store')) {
+				unlink(HOME . $nname . '/data/.DS_Store');
 			}
 			//hopefully now we can remove the folder
-			rmdir(HOME.$name.'/data');
+			rmdir(HOME.$nname.'/data');
 			
-			foreach(glob(HOME.$name."/*") as $folderfile) {
+			foreach(glob(HOME.$nname."/*") as $folderfile) {
 				unlink($folderfile);
 			}
 			//and this one
-			if(file_exists(HOME . $name . '/.DS_Store')) {
-				unlink(HOME . $name . '/.DS_Store');
+			if(file_exists(HOME . $nname . '/.DS_Store')) {
+				unlink(HOME . $nname . '/.DS_Store');
 			}
 			//final check
-			$dpf = rmdir(HOME . $name);
+			$dpf = rmdir(HOME . $nname);
 			if($dpf) $message .= p_wrap("Deleted page folder");
 		}
 				
