@@ -24,4 +24,13 @@ to get started:
 9. flaunt your stuff...
 
 
+- - - - - - - - - - - - - 
+- - - - - BUGS  - - - - - 
+- - - - - - - - - - - - - 
+
+In the menu section of the admin area, if you change the order of of the menu but do not submit, the other options, such as 'Add Marker' do not fully expand when clicked.
+
+On some servers, showcases cannot be deleted fully.
+
+
 

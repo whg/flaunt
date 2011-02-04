@@ -38,7 +38,7 @@ border-radius: 8px
 nav {
 text-align: right;
 line-height: 1.5em;
-margin-top: 50px;
+margin-top: 30px;
 font-style: normal;
 font-weight: normal;
 color: #fefeff;
@@ -214,6 +214,10 @@ border-radius: 3px;
 padding: 10px 0px 10px 0px;
 }
 
+.logo {
+margin: 20px 20px 0px;
+}
+
 /* - - - - PAGE - - - - */
 
 #page {
@@ -277,13 +281,19 @@ float: right;
 /* - - - - BLOG - - - - */
 
 article.blog_item {
-height: 100px;
-padding-top: 5px;
+padding: 5px;
+margin: 10px 0px 10px 0px;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+background-color: #fbfbf;
 
 }
 
-article.blog_item header h3 {
-	padding-bottom: 0px;
+
+article.blog_item h3 {
+	margin: 0px;
+padding: 0px;
 }
 
 article.blog_item time {
@@ -293,7 +303,11 @@ color: #999;
 }
 
 article.blog_item header {
-
+padding: 5px;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+background-color: #f0f0f0;
 }
 
 article.blog_item footer {
