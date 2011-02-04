@@ -21,11 +21,8 @@ if(!empty($_POST['name']) && isset($_POST['submit'])) {
 	$nname = lowercase_nospace($name);
 
 	
-	//get current no of pages...	
-	$stmt = $pdo->prepare("SELECT COUNT(*) FROM pages");
-	$stmt->execute();
-	$currentno = $stmt->fetch(PDO::FETCH_NUM);
-	$no = $currentno[0] + 1;
+	//get current no of pages + 1... this now uses a nice little function 3.1.11	
+	$no = get_next_table_no("pages");
 	
 	//add page to pages table... at the end
 	$stmt = $pdo->prepare("INSERT INTO pages(no, name, type) VALUES(?, ?, ?)");
@@ -48,7 +45,7 @@ if(!empty($_POST['name']) && isset($_POST['submit'])) {
 		$c2 = fwrite($ffh, addpage($name, $type));
 		//and close
 		fclose($ffh);
-		chmod($dest, 0774);
+		chmod($dest, 0777);
 		if($c2) $message .= p_wrap("Page created");
 	}
 	
@@ -58,16 +55,16 @@ if(!empty($_POST['name']) && isset($_POST['submit'])) {
 		//remove any space and stuff
 		$dest = HOME . $nname;
 		mkdir($dest);
-		chmod($dest, 0774);
+		chmod($dest, 0777);
 		mkdir($dest. '/data');
-		chmod($dest . '/data', 0774);
+		chmod($dest . '/data', 0777);
 		
 		//create index page
 		$ffh = fopen($dest . '/index.php', 'w');
 		//addpage() puts all the goodness in... basically includes...
 		$c2 = fwrite($ffh, addpage($name, $type));	
 		fclose($ffh);
-		chmod($dest . '/index.php', 0774);
+		chmod($dest . '/index.php', 0777);
 		if($c2) $message .= p_wrap("Page created");
 	}
 	

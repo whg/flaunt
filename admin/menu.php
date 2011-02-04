@@ -13,16 +13,15 @@ mainsection('s');
 get_header();
 
 //how many pages are there?
-//this is need for all things...
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM pages");
-$stmt->execute();
-$nopages = $stmt->fetch();
+//this is needed for all things...
+
+$nopages = get_next_table_no("pages");
 
 /*  - - - - - - - - ADD NEW MARKER - - - - - - - -  */
 
 if(isset($_POST['addmarker']) && isset($_POST['markername'])) {
 	$mname = $_POST['markername'];
-	$pno = $nopages[0]+1;
+	$pno = $nopages;
 	$stmt = $pdo->prepare("INSERT INTO pages(no, name, type) VALUES(?,?,?)");
 	$rr = $stmt->execute(array($pno, $mname, "marker"));
 	//check if it worked

@@ -2,7 +2,7 @@
 
 //fill in $dr with the URL of the folder that the site will reside in
 //or leave it blank if the site will be in the document root
-//eg. $dr = ''; OR $dr = 'http://www.hello.com/sitename';
+//eg. $dr = ''; OR $dr = 'http://www.hello.com/sitename' NB no slash at the end;
 $dr = 'http://localhost/~WHG/flaunt'; 
 
 //fill in database details...
@@ -17,14 +17,16 @@ define('THEMENAME', 'one');
 define('AUTHOR', 'WHG');
 
 /* some random characters to salt the passwords with...
-   these can be whatever you want, but once you set them don't change them */
+   these can be whatever you want, change them only once...*/
 
 $salt1 = 'kdje';
 $salt2 = 'akdfje';
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - YOU DON'T NEED TO DO ANYTHING BEYOND THIS POINT - - - - - - - -
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 //--- file definitions ---
 define('HOME', dirname(__FILE__ ).'/'); 
@@ -61,6 +63,15 @@ try {
 catch(PDOException $e) {
     die("Could not connect to the database\n");
 }
+
+/* set up standard mysql connection */
+
+$db_server = mysql_connect(DB_HOST, DB_USER, DB_PASS);
+if(!$db_server) echo("Could not connect to MySQL Server...");
+//select correct database
+$cd = mysql_select_db(DB);
+if(!$cd) echo("Could not select database...");
+
 
 /* --- misc. --- */
 

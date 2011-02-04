@@ -68,10 +68,8 @@ if(isset($_POST['uploadhomepage']) && isset($_POST['name'])) {
 		
 		$path = 'content/homepages/' . $fileName;
 		
-		$stmt = $pdo->prepare("SELECT COUNT(*) FROM homepage");
-		$stmt->execute();
-		$currentno = $stmt->fetch(PDO::FETCH_NUM);
-		$no = $currentno[0] + 1;
+		//get the next number needed... so it's inserted in the right place
+		$no = get_next_table_no("homepage");
 			
 		//enter details into database
 		$stmt = $pdo->prepare("INSERT INTO homepage(no, name, date, info, path, type) VALUES(?,?,?,?,?,?)");
@@ -103,8 +101,8 @@ if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 		$r = $stmt->execute(array($post));
 		
 		//reorder table
-		$stmt = $pdo->prepare("SET @num = 0; UPDATE homepage SET no= (SELECT @num := @num + 1)");
-		$rr = $stmt->execute();
+		mysql_query("SET @num = 0"); 
+		$rr = mysql_query("UPDATE $nname SET no= (SELECT @num := @num + 1)") or die(mysql_error());
 		
 		if($r) $message .= p_wrap("Homepage <b>$post</b> has been deleted. ");
 		else $message .= p_wrap("Homepage was not deleted, an error occured.");
@@ -250,10 +248,8 @@ if(isset($_POST['uploadimage']) && isset($_POST['name'])) {
 		$caption = $_POST['caption'];
 		$path = 'content/images/' . $fileName; //is this used anymore?
 		
-		$stmt = $pdo->prepare("SELECT COUNT(*) FROM $nname");
-		$stmt->execute();
-		$currentno = $stmt->fetch(PDO::FETCH_NUM);
-		$no = $currentno[0] + 1;
+		//get the number of rows in table + 1 so new entry has correct no.
+		$no = get_next_table_no($nname);
 			
 		//enter details into database
 		$stmt = $pdo->prepare("INSERT INTO $nname(no, name, file, caption) VALUES(?,?,?,?)");
@@ -294,8 +290,9 @@ if(isset($_POST['deletephoto']) && isset($_POST['photo']) && isset($_POST['sure'
 		$stmt = $pdo->prepare("DELETE FROM $nname WHERE name=?");
 		$r = $stmt->execute(array($post));
 	
-		$stmt = $pdo->prepare("SET @num = 0; UPDATE $nname SET no= (SELECT @num := @num + 1)");
-		$rr = $stmt->execute();
+		//reorder table
+		mysql_query("SET @num = 0"); 
+		$rr = mysql_query("UPDATE $nname SET no= (SELECT @num := @num + 1)") or die(mysql_error());
 		
 		if($r) $message.= p_wrap("Photo <b>$post</b> has been deleted. ");
 		else $message.= p_wrap("Photo was not deleted, an error occured.");
@@ -422,10 +419,8 @@ if(isset($_POST['addnewshowcase']) && isset($_POST['name'])) {
 		$smallimagepath = $fileName1;
 		$headerimagepath = $fileName2;
 		
-		$stmt = $pdo->prepare("SELECT COUNT(*) FROM $nname");
-		$stmt->execute();
-		$currentno = $stmt->fetch(PDO::FETCH_NUM);
-		$no = $currentno[0] + 1;
+		//get the number of rows in table + 1 so new entry has correct no.
+		$no = get_next_table_no($nname);
 			
 		//enter details into database
 		$stmt = $pdo->prepare("INSERT INTO $nname(no, name, summary, smallimage, headerimage) VALUES(?,?,?,?,?)");
@@ -481,9 +476,9 @@ if(isset($_POST['deleteshowcaseitem']) && isset($_POST['item']) && isset($_POST[
 		$stmt = $pdo->prepare("DELETE FROM $nname WHERE name=?");
 		$r = $stmt->execute(array($item));
 		
-		//reorder no column in table
-		$stmt = $pdo->prepare("SET @num = 0; UPDATE $nname SET no= (SELECT @num := @num + 1)");
-		$rr = $stmt->execute();
+		//reorder table
+		mysql_query("SET @num = 0"); 
+		$rr = mysql_query("UPDATE $nname SET no= (SELECT @num := @num + 1)") or die(mysql_error());
 		
 		if($r && $rr) $message .= p_wrap("<b>$item</b> has been deleted from <b>$nname</b> table");
 		
@@ -666,10 +661,8 @@ if(isset($_POST['addblogentry']) && isset($_POST['title'])) {
 	$date = get_mysql_date();
 	$entry = $_POST['entry'];
 	
-	$stmt = $pdo->prepare("SELECT COUNT(*) FROM $nname");
-	$stmt->execute();
-	$currentno = $stmt->fetch(PDO::FETCH_NUM);
-	$no = $currentno[0] + 1;
+	//get the number of rows in table + 1 so new entry has correct no.
+	$no = get_next_table_no($nname);
 		
 	//enter details into database
 	$stmt = $pdo->prepare("INSERT INTO $nname(no, title, date, entry) VALUES(?,?,?,?)");
@@ -693,12 +686,13 @@ if(isset($_POST['deleteblogentry']) && isset($_POST['entry']) && isset($_POST['s
 		$delitem = 1;
 		$entry = $_POST['entry'];
 		
+		//delete from entry from own table
 		$stmt = $pdo->prepare("DELETE FROM $nname WHERE title=?");
 		$r = $stmt->execute(array($entry));
 		
-		//reorder no column in table
-		$stmt = $pdo->prepare("SET @num = 0; UPDATE $nname SET no= (SELECT @num := @num + 1)");
-		$rr = $stmt->execute();
+		//reorder table
+		mysql_query("SET @num = 0"); 
+		$rr = mysql_query("UPDATE $nname SET no= (SELECT @num := @num + 1)") or die(mysql_error());
 		
 		if($r) $message .= p_wrap("<b>$entry</b> has been deleted from <b>$name</b> table");
 		if($rr) $message .= p_wrap("Table has been reordered");

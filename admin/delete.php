@@ -14,8 +14,9 @@ if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 	if($_POST['delete'] == 'Delete' && $_POST['sure'] ==  'true') {
 		$name = $_POST['page'];
 		$nname = lowercase_nospace($name);
+		
 		//find type of page...
-		$stmt = $pdo->prepare("SELECT type from pages where name=?");
+		$stmt = $pdo->prepare("SELECT type FROM pages WHERE name=?");
 		$stmt->execute(array($name));
 		$row = $stmt->fetch();
 		$type = $row[0];
@@ -33,9 +34,7 @@ if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 		if($trow) $message .= p_wrap("Deleted page from table");
 		
 		//reorder table
-		$stmt = $pdo->prepare("SET @num = 0; UPDATE pages SET no= (SELECT @num := @num + 1)");
-		$rr = $stmt->execute();
-
+		$rr = mysql_query("SET @num = 0; UPDATE pages SET no= (SELECT @num := @num + 1)");
 		
 		//delete data file
 		$fn = HOME . 'content/data/' . $nname . '.html';

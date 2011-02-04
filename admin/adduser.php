@@ -5,7 +5,7 @@ get_html_head();
 
 start_body();
 
-section('s');
+mainsection('s');
 
 set_header('Add User');
 
@@ -53,10 +53,11 @@ if(isset($_POST['user']) && isset($_POST['pass'])) {
 }
 
 
-?>
-<?php 
+article('e');
 
-close_page();
+mainsection('e');
+
+get_footer();
 
 
 ?>

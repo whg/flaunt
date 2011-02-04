@@ -63,7 +63,11 @@ color: black;
 }
 
 nav ul li.marker {
-	color: fuchsia;
+	color: #fefefe;
+	padding: 0px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 	margin: 10px 0px 10px 0px;
 }
 
