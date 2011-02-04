@@ -93,7 +93,7 @@ function get_homepage_product() {
 	
 	global $hp_array;
 	//start div
-	echo('<div class="center">');
+	echo('<div class="homepageproduct">');
 	
 	if($hp_array['type'] == 'image') {
 		echo("<a href=\"$hp_array[path]\">

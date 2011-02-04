@@ -46,7 +46,8 @@ if(isset($_POST['deletemarker']) && isset($_POST['marker'])) {
 
 //deal with the request... re-order the menu
 if(isset($_POST['reorder'])) {
-	for($i = 1; $i <= $nopages[0]; $i++) {
+	$r = 0;
+	for($i = 1; $i < $nopages; $i++) {
 		$stmt = $pdo->prepare("UPDATE pages SET no=? WHERE name=?");
 		$r = $stmt->execute(array($i, $_POST[$i]));
 	}
