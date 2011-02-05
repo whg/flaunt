@@ -76,8 +76,8 @@ if(!empty($_POST['name']) && isset($_POST['submit'])) {
 	$stmt = $pdo->prepare("CREATE TABLE $nname(
 	id INT NOT NULL AUTO_INCREMENT,
 	no INT(4),
-	name VARCHAR(20),
-	file VARCHAR(20),
+	name VARCHAR(50),
+	file VARCHAR(50),
 	caption TEXT,
 	PRIMARY KEY (id)) ENGINE MyISAM");
 	$r2 = $stmt->execute();
@@ -93,10 +93,10 @@ if(!empty($_POST['name']) && isset($_POST['submit'])) {
 		$stmt = $pdo->prepare("CREATE TABLE $nname(
 		id INT NOT NULL AUTO_INCREMENT,
 		no INT(4),
-		name VARCHAR(20),
+		name VARCHAR(50),
 		summary TEXT,
-		smallimage VARCHAR(20),
-		headerimage VARCHAR(20),
+		smallimage VARCHAR(50),
+		headerimage VARCHAR(50),
 		PRIMARY KEY (id)) ENGINE MyISAM");
 		$r2 = $stmt->execute();
 		if($r2) $message .= p_wrap("Created <b>$nname</b> table");
@@ -118,7 +118,7 @@ if(!empty($_POST['name']) && isset($_POST['submit'])) {
 		$stmt = $pdo->prepare("CREATE TABLE $nname(
 		id INT NOT NULL AUTO_INCREMENT,
 		no INT(4),
-		title VARCHAR(20),
+		title VARCHAR(50),
 		date DATETIME,
 		entry MEDIUMTEXT,
 		PRIMARY KEY (id)) ENGINE MyISAM");

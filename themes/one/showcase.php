@@ -12,8 +12,6 @@ get_header();
 
 get_intro($pagetitle);
 
-//get_showcase_list($pagetitle);
-
 get_showcase_items($pagetitle);
 
 
