@@ -21,7 +21,9 @@
 						$row = $stmt->fetchAll();
 						
 						foreach($row as $name) {
-							echo('<li><a href="'.AROOT.'edit.php?type='.$name[1]."&name=".$name[0].'">'.$name[0]."</a></li>\n");
+							if($name[1] !== 'marker') {
+								echo('<li><a href="'.AROOT.'edit.php?type='.$name[1]."&name=".$name[0].'">'.$name[0]."</a></li>\n");
+							}
 						}
 					?>
 				</ul>

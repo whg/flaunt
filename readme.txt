@@ -23,6 +23,8 @@ to get started:
 8. load yoursite/admin in your browser and login
 9. flaunt your stuff...
 
+For full instructions for installation and other details visit: http://whg.im/flaunt
+
 
 - - - - - - - - - - - - - 
 - - - - - BUGS  - - - - - 
@@ -31,6 +33,8 @@ to get started:
 In the menu section of the admin area, if you change the order of of the menu but do not submit, the other options, such as 'Add Marker' do not fully expand when clicked.
 
 On some servers, showcases cannot be deleted fully.
+
+
 
 
 
