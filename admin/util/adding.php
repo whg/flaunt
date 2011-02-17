@@ -6,7 +6,7 @@ function addpage($n, $type) {
 		$addpage = '<?php $pagetitle = ' . "'$n';";
 		$addpage .= " 
 		include_once('./include.php');
-		include_once(\"./themes/".THEMENAME."/$type.php\");
+		include_once(\"./themes/\".THEMENAME.\"/$type.php\");
 		";
 		$addpage.= '?>';
 	}
@@ -15,7 +15,7 @@ function addpage($n, $type) {
 		$addpage = '<?php $pagetitle = ' . "'$n';";
 		$addpage .= " 
 		include_once('../include.php');
-		include_once(\"../themes/".THEMENAME."/$type.php\");
+		include_once(\"../themes/\".THEMENAME.\"/$type.php\");
 		";
 		$addpage.= '?>';
 	}
@@ -27,7 +27,7 @@ function add_showcase_page($n, $folder) {
 	$addpage .= '$showcasename = ' . "'$folder';";
 	$addpage .= " 
 	include_once('../include.php');
-	include_once(\"../themes/".THEMENAME."/showcasepage.php\");
+	include_once(\"../themes/\".THEMENAME.\"/showcasepage.php\");
 	";
 	$addpage.= '?>';
 	return $addpage;
