@@ -73,7 +73,12 @@ if($message !== '') {
 <ul id="menusorter">
 <?php 
 foreach($result as $item) {
-	echo("<li class=\"sortmenu\">$item[name]</li>\n");
+	echo("<li class=\"sortmenu\" ");	
+	//show the markers as orange background with black writing,
+	//leave the rest to the sortmenu class...
+	if($item['type'] == 'marker') echo("style=\"background-color: orange; color: black\"");
+	echo(">$item[name]</li>\n");
+	
 }
 ?>
 </ul>
