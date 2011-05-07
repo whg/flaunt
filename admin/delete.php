@@ -33,8 +33,20 @@ if(isset($_POST['delete']) && isset($_POST['page']) && isset($_POST['sure'])) {
 		$trow = $stmt->execute(array($name));
 		if($trow) $message .= p_wrap("Deleted page from table");
 		
+		//get the number of roww
+		$stmt = $pdo->prepare("SELECT count(name) FROM pages");
+		$stmt->execute();
+		$rowa = $stmt->fetch();
+		$numCols = $rowa[0];
+		
 		//reorder table
-		$rr = mysql_query("SET @num = 0; UPDATE pages SET no= (SELECT @num := @num + 1)");
+		//this is very bad form, i should be able to do this all in MySQL but whatever...
+		//it's not like there are going to be millions of pages...
+		for($i = $row[1]+1; $i < $numCols; $i++) {
+			$j = $i-1;
+			$stmt = $pdo->prepare("UPDATE $name SET no='$j' WHERE no='$i'");
+			$rr = $stmt->execute();
+		}
 		
 		//delete data file
 		$fn = HOME . 'content/data/' . $nname . '.html';
